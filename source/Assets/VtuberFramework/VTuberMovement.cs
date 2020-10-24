@@ -1,52 +1,56 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class VTuberMovement : MonoBehaviour
 {
-    public Transform mainNode;
+    public Transform rightWri;
+    public Transform leftWri;
+    public Transform rightElbow;
+    public Transform leftElbow;
+    public Transform neck;
+    public Transform head;
+    public BodyData bodyData;
 
-    public Vector2 offset;
-    public Vector2 scaling;
-    public float z;
-
-    public string[] bodyParts = new string[]{
-        "nose", "neck",
-        "r_sho", "r_elb", "r_wri", "l_sho", "l_elb", "l_wri",
-        "r_hip", "r_knee", "r_ank", "l_hip", "l_knee", "l_ank",
-        "r_eye", "l_eye",
-        "r_ear", "l_ear"
-    };
-
-    public bodypart testPlaceHolder;
     public void ShowTrackingData(int[][] data)
     {
+        bodyData.SetNodes(data);
 
-        var lastBp = GameObject.FindObjectsOfType<bodypart>();
+        rightWri.gameObject.SetActive(bodyData.rightWriIsActive);
+        rightWri.position = bodyData.rightWri;
 
-        foreach (var item in lastBp)
+        leftWri.gameObject.SetActive(bodyData.leftWriIsActive);
+        leftWri.position = bodyData.leftWri;
+
+        rightElbow.gameObject.SetActive(bodyData.rightElbowIsActive);
+        rightElbow.position = bodyData.rightElbow;
+
+        leftElbow.gameObject.SetActive(bodyData.leftElbowIsActive);
+        leftElbow.position = bodyData.leftElbow;
+
+        head.gameObject.SetActive(bodyData.headIsActive);
+        head.position = bodyData.head;
+        
+        neck.position = bodyData.neck;
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (bodyData.debugData == null)
         {
-            Destroy(item.gameObject);
+            return;
         }
 
-        for (int i = 0; i < data.Length; i++)
+        for (int i = 0; i < bodyData.debugData.Length; i++)
         {
-            if (data[i][0] == -1 && data[i][1] == -1)
+            if (bodyData.debugData[i][0] == -1 || bodyData.debugData[i][1] == -1)
             {
                 continue;
             }
 
-            Vector3 nodePostion = new Vector3(data[i][0] / scaling.x + offset.x, data[i][1] / scaling.y + offset.y, z);
-
-            if (i == 1)
-            {
-                mainNode.position = nodePostion;
-            }
-
-            bodypart instantiatedObject = Instantiate(testPlaceHolder, nodePostion, Quaternion.identity);
-            instantiatedObject.Setup(bodyParts[i]);
+            var pos = bodyData.GetNodeVector(bodyData.debugData[i]) - bodyData.neckPos;
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(pos, 0.05f);
         }
-
     }
 
 }
