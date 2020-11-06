@@ -1,22 +1,20 @@
 import cv2
+import math
 import numpy as np
 import torch
 
-from models.with_mobilenet import PoseEstimationWithMobileNet
-from modules.keypoints import extract_keypoints, group_keypoints
-from modules.load_state import load_state
-from modules.pose import Pose, track_poses
-from val import normalize, pad_width
+from emotion_models.with_mobilenet import PoseEstimationWithMobileNet
+from pose_models.keypoints import extract_keypoints, group_keypoints
+from pose_models.load_state import load_state
+from pose_models.pose import Pose, track_poses
 from utils.video_reader import VideoReader
 
 
 class PoseEstimator:
-    def __init__(self, checkpoint_path="checkpoint_iter_370000.pth"):
+    def __init__(self, checkpoint_path="checkpoints/checkpoint_iter_370000.pth"):
 
         self.height_size = 256 / 2
         self.cpu = False
-        self.track = 1
-        self.smooth = True
         self.stride = 8
         self.upsample_ratio = 4
         self.num_keypoints = Pose.num_kpts
@@ -40,9 +38,9 @@ class PoseEstimator:
         scaled_img = cv2.resize(
             img, (0, 0), fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC
         )
-        scaled_img = normalize(scaled_img, img_mean, img_scale)
+        scaled_img = self.normalize(scaled_img, img_mean, img_scale)
         min_dims = [self.height_size, max(scaled_img.shape[1], self.height_size)]
-        padded_img, pad = pad_width(scaled_img, self.stride, pad_value, min_dims)
+        padded_img, pad = self.pad_width(scaled_img, self.stride, pad_value, min_dims)
 
         tensor_img = torch.from_numpy(padded_img).permute(2, 0, 1).unsqueeze(0).float()
         if not self.cpu:
@@ -107,6 +105,7 @@ class PoseEstimator:
                     )
             pose = Pose(pose_keypoints, pose_entries[n][18])
             current_poses.append(pose)
+            break
 
         track_poses(self.previous_poses, current_poses, smooth=True)
         self.previous_poses = current_poses
@@ -117,3 +116,24 @@ class PoseEstimator:
             return []
 
         return current_poses[0].keypoints.tolist()
+
+    def normalize(self, img, img_mean, img_scale):
+        img = np.array(img, dtype=np.float32)
+        img = (img - img_mean) * img_scale
+        return img
+
+    def pad_width(self, img, stride, pad_value, min_dims):
+        h, w, _ = img.shape
+        h = min(min_dims[0], h)
+        min_dims[0] = math.ceil(min_dims[0] / float(stride)) * stride
+        min_dims[1] = max(min_dims[1], w)
+        min_dims[1] = math.ceil(min_dims[1] / float(stride)) * stride
+        pad = []
+        pad.append(int(math.floor((min_dims[0] - h) / 2.0)))
+        pad.append(int(math.floor((min_dims[1] - w) / 2.0)))
+        pad.append(int(min_dims[0] - h - pad[0]))
+        pad.append(int(min_dims[1] - w - pad[1]))
+        padded_img = cv2.copyMakeBorder(
+            img, pad[0], pad[2], pad[1], pad[3], cv2.BORDER_CONSTANT, value=pad_value
+        )
+        return padded_img, pad

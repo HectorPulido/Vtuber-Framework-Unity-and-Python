@@ -4274,6 +4274,7 @@ GameObject:
   - component: {fileID: 653459690211062754}
   - component: {fileID: 653459690211062755}
   - component: {fileID: 653459690211062752}
+  - component: {fileID: 523476648}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -4336,14 +4337,49 @@ MonoBehaviour:
   leftHand: {fileID: 653459690360684283}
   rightElbow: {fileID: 653459690619181590}
   leftElbow: {fileID: 653459689357086216}
-  head: {fileID: 0}
+  head: {fileID: 653459690963371769}
   characterPosition: {fileID: 653459689592866570}
-  characterOffset: {x: 0, y: -1.11, z: 0}
+  characterOffset: {x: -0.05, y: -1.11, z: 0}
+  weightMultiplierUp: 100
+  weightMultiplierDown: 0.5
   lookWeight: 1
-  bodyWeight: 0.25
+  bodyWeight: 0.15
   headWeight: 0.9
   eyesWeight: 1
   clampWeight: 1
+  rightHandWeight: 0
+  leftHandWeight: 0
+  rightElbowWeight: 0
+  leftElbowWeight: 0
+--- !u!114 &523476648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653459690211062753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b3f72f3af1f08f4182df40f68cfbca8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerName: Face
+  emotion:
+  - Angry
+  - Disgust
+  - Fear
+  - Happy
+  - Sad
+  - Surprised
+  - Neutral
+  animations:
+  - {fileID: 7400000, guid: 689da6f371ad8441395f39acaf2c7ae3, type: 2}
+  - {fileID: 7400000, guid: 66c6a39c175f346f6b2e3016fa5ae35b, type: 2}
+  - {fileID: 7400000, guid: 66c6a39c175f346f6b2e3016fa5ae35b, type: 2}
+  - {fileID: 7400000, guid: 06b76ba9895174fc19d91c361e7c911b, type: 2}
+  - {fileID: 7400000, guid: 3555863ff4ef948e298b8d11ea795ec4, type: 2}
+  - {fileID: 7400000, guid: a20620e3db1a64f2f9a3e3339b884479, type: 2}
+  - {fileID: 7400000, guid: 6394472d24c9347e5bb789ec1f15e5bb, type: 2}
 --- !u!1 &653459690211991170
 GameObject:
   m_ObjectHideFlags: 0
@@ -6000,6 +6036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vtuberMovement: {fileID: 653459690724636868}
+  faceHandler: {fileID: 523476648}
   ipAdress: 127.0.0.1
   port: 65432
 --- !u!114 &653459690724636868
@@ -6022,13 +6059,18 @@ MonoBehaviour:
   head: {fileID: 653459690963371769}
   bodyData:
     scale: {x: 800, y: -800}
-    offset: {x: 0, y: 1, z: -9}
+    offset: {x: 0, y: 0.8, z: -9.5}
+    headDistance: -1
+    headAngleOffset: 90
+    headAngleMult: 5
+    headVerticalMult: 1
     neck: {x: -0.049718775, y: 1.0752368, z: -8}
     rightWri: {x: -0.37097648, y: 1.5009764, z: -8}
     leftWri: {x: -0.37097648, y: 1.5009764, z: -8}
     leftElbow: {x: 0, y: 0, z: 0}
     rightElbow: {x: 0, y: 0, z: 0}
     head: {x: -0.0907304, y: 1.1855776, z: -8}
+    headRotation: 0
     rightWriIsActive: 0
     leftWriIsActive: 0
     leftElbowIsActive: 0

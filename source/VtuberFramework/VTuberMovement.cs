@@ -10,9 +10,13 @@ public class VTuberMovement : MonoBehaviour
     public Transform head;
     public BodyData bodyData;
 
-    public void ShowTrackingData(int[][] data)
+    public void ShowTrackingData(ImageData imageData)
     {
-        bodyData.SetNodes(data);
+        var poseData = imageData.pose_data;
+        var depthData = imageData.pose_depth_data;
+        
+
+        bodyData.SetNodes(poseData, depthData);
 
         rightWri.gameObject.SetActive(bodyData.rightWriIsActive);
         rightWri.position = bodyData.rightWri;
@@ -28,29 +32,29 @@ public class VTuberMovement : MonoBehaviour
 
         head.gameObject.SetActive(bodyData.headIsActive);
         head.position = bodyData.head;
-        
+        head.rotation = Quaternion.Euler(0, 0, bodyData.headRotation);
+
         neck.position = bodyData.neck;
-
     }
 
-    private void OnDrawGizmos()
-    {
-        if (bodyData.debugData == null)
-        {
-            return;
-        }
+    // private void OnDrawGizmos()
+    // {
+    //     if (bodyData.debugData == null)
+    //     {
+    //         return;
+    //     }
 
-        for (int i = 0; i < bodyData.debugData.Length; i++)
-        {
-            if (bodyData.debugData[i][0] == -1 || bodyData.debugData[i][1] == -1)
-            {
-                continue;
-            }
+    //     for (int i = 0; i < bodyData.debugData.Length; i++)
+    //     {
+    //         if (bodyData.debugData[i][0] == -1 || bodyData.debugData[i][1] == -1)
+    //         {
+    //             continue;
+    //         }
 
-            var pos = bodyData.GetNodeVector(bodyData.debugData[i]) - bodyData.neckPos;
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(pos, 0.05f);
-        }
-    }
+    //         var pos = bodyData.GetNodeVector(bodyData.debugData[i]) - bodyData.neckPos;
+    //         Gizmos.color = Color.yellow;
+    //         Gizmos.DrawWireSphere(pos, 0.05f);
+    //     }
+    // }
 
 }

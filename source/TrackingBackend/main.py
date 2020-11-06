@@ -3,6 +3,7 @@ import json
 from utils.pose_estimator import PoseEstimator
 from utils.video_reader import VideoReader
 from utils.emotion_dection import EmotionDetector
+from utils.depth_estimator import DepthEstimator
 
 video = "0"
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
@@ -19,10 +20,10 @@ sock.bind(server_address)
 # Listen for incoming connections
 sock.listen(1)
 
-
 frame_provider = iter(VideoReader(video))
 emotion_detector = EmotionDetector()
 pose_estimator = PoseEstimator()
+depth_estimator = DepthEstimator()
 
 while True:
     # Wait for a connection
@@ -34,10 +35,22 @@ while True:
         while True:
             img = next(frame_provider)
 
-            emotion_data = emotion_detector.guided_backprop(img)
-            pose_data = pose_estimator.get_pose_data(img)
+            emotion_data = emotion_detector.guided_backprop(img.copy())
+            pose_data = pose_estimator.get_pose_data(img.copy())
+            depth_estimation = depth_estimator.estimateFromImage(img.copy())
 
-            data_to_send = {"pose_data": pose_data, "emotion_data": emotion_data}
+            # import cv2 
+            # cv2.imshow('frame', depth_estimation)
+            # if cv2.waitKey(1) & 0xFF == ord('q'):
+            #     break
+
+            pose_depth_data = depth_estimator.estimatePose(depth_estimation, pose_data)
+
+            data_to_send = {
+                'pose_data': pose_data,
+                'emotion_data': emotion_data,
+                'pose_depth_data': pose_depth_data
+            }
 
             data_to_send = str.encode(json.dumps(data_to_send))
 

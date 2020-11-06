@@ -12,11 +12,20 @@ public class IKHandlers : MonoBehaviour
     public Transform characterPosition;
     public Vector3 characterOffset;
 
+    public float weightMultiplierUp = 10;
+    public float weightMultiplierDown = 3;
+
     public float lookWeight = 1;
     public float bodyWeight = 0.25f;
     public float headWeight = 0.9f;
     public float eyesWeight = 1;
     public float clampWeight = 1;
+
+
+    public float rightHandWeight;
+    public float leftHandWeight;
+    public float rightElbowWeight;
+    public float leftElbowWeight;
 
 
     void Awake()
@@ -38,55 +47,65 @@ public class IKHandlers : MonoBehaviour
 
         if (rightHand != null && rightHand.gameObject.activeInHierarchy)
         {
-            anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+            rightHandWeight += Time.deltaTime * weightMultiplierUp;
             anim.SetIKPosition(AvatarIKGoal.RightHand, rightHand.position);
         }
         else
         {
-            //anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
-            //anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+            rightHandWeight -= Time.deltaTime * weightMultiplierDown;
         }
 
         if (leftHand != null && leftHand.gameObject.activeInHierarchy)
         {
-            anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+            leftHandWeight += Time.deltaTime * weightMultiplierUp;
             anim.SetIKPosition(AvatarIKGoal.LeftHand, leftHand.position);
         }
         else
         {
-            //anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
-            //anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
+            leftHandWeight -= Time.deltaTime * weightMultiplierDown;
         }
 
         if (rightElbow != null && rightElbow.gameObject.activeInHierarchy)
         {
-            anim.SetIKHintPositionWeight(AvatarIKHint.RightElbow, 1);
+            rightElbowWeight += Time.deltaTime * weightMultiplierUp;
             anim.SetIKHintPosition(AvatarIKHint.RightElbow, rightElbow.position);
         }
         else
         {
-            //anim.SetIKHintPositionWeight(AvatarIKHint.RightElbow, 0);
+            rightElbowWeight -= Time.deltaTime * weightMultiplierDown;
         }
 
         if (leftElbow != null && leftElbow.gameObject.activeInHierarchy)
         {
-            anim.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, 1);
+            leftElbowWeight += Time.deltaTime * weightMultiplierUp;
             anim.SetIKHintPosition(AvatarIKHint.LeftElbow, leftElbow.position);
         }
         else
         {
-            //anim.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, 1);
+            leftElbowWeight -= Time.deltaTime * weightMultiplierDown;
         }
 
         if (head != null && head.gameObject.activeInHierarchy)
         {
+            anim.SetBoneLocalRotation(HumanBodyBones.Head, head.rotation);
+
             anim.SetLookAtWeight(lookWeight, bodyWeight, headWeight, eyesWeight, clampWeight);
             anim.SetLookAtPosition(head.position);
         }
         else
         {
-            //anim.SetLookAtWeight(0);
+            anim.SetLookAtWeight(0);
         }
-    }
 
+        rightHandWeight = Mathf.Clamp01(rightHandWeight);
+        leftHandWeight = Mathf.Clamp01(leftHandWeight);
+        rightElbowWeight = Mathf.Clamp01(rightElbowWeight);
+        leftElbowWeight = Mathf.Clamp01(leftElbowWeight);
+
+        anim.SetIKPositionWeight(AvatarIKGoal.RightHand, rightHandWeight);
+        anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, leftHandWeight);
+        anim.SetIKHintPositionWeight(AvatarIKHint.RightElbow, rightElbowWeight);
+        anim.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, leftElbowWeight);
+
+    }
 }

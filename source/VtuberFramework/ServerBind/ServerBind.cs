@@ -10,6 +10,7 @@ public struct ImageData
 {
     public int[][] pose_data;
     public string emotion_data;
+    public float[] pose_depth_data;
 }
 
 [RequireComponent(typeof(VTuberMovement))]
@@ -84,7 +85,7 @@ public class ServerBind : MonoBehaviour
             try
             {
                 ImageData resultArray = JsonConvert.DeserializeObject<ImageData>(data);
-                vtuberMovement.ShowTrackingData(resultArray.pose_data);
+                vtuberMovement.ShowTrackingData(resultArray);
                 faceHandler.ChangeEmotion(resultArray.emotion_data);
             }
             catch (System.Exception)

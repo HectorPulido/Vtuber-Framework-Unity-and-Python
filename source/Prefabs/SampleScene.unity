@@ -121,41 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &523476647 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 653459690211062753, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-    type: 3}
-  m_PrefabInstance: {fileID: 653459689984545257}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &523476648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 523476647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b3f72f3af1f08f4182df40f68cfbca8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layerName: Face
-  emotion:
-  - Angry
-  - Disgust
-  - Fear
-  - Happy
-  - Sad
-  - Surprised
-  - Neutral
-  animations:
-  - {fileID: 7400000, guid: 689da6f371ad8441395f39acaf2c7ae3, type: 2}
-  - {fileID: 7400000, guid: 66c6a39c175f346f6b2e3016fa5ae35b, type: 2}
-  - {fileID: 7400000, guid: 66c6a39c175f346f6b2e3016fa5ae35b, type: 2}
-  - {fileID: 7400000, guid: 06b76ba9895174fc19d91c361e7c911b, type: 2}
-  - {fileID: 7400000, guid: 3555863ff4ef948e298b8d11ea795ec4, type: 2}
-  - {fileID: 7400000, guid: a20620e3db1a64f2f9a3e3339b884479, type: 2}
-  - {fileID: 7400000, guid: 6394472d24c9347e5bb789ec1f15e5bb, type: 2}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,12 +296,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1634249129 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 653459690963371769, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-    type: 3}
-  m_PrefabInstance: {fileID: 653459689984545257}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &653459689984545257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -344,21 +303,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 653459690211062752, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-        type: 3}
-      propertyPath: head
-      value: 
-      objectReference: {fileID: 1634249129}
-    - target: {fileID: 653459690211062752, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-        type: 3}
-      propertyPath: characterOffset.x
-      value: -0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 653459690211062752, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 653459690724636866, guid: 593189f1e0425b042ae3d74d2b1abf0c,
         type: 3}
       propertyPath: m_Name
@@ -366,38 +310,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 653459690724636868, guid: 593189f1e0425b042ae3d74d2b1abf0c,
         type: 3}
-      propertyPath: bodyData.headDistance
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 653459690724636868, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-        type: 3}
-      propertyPath: bodyData.headMultiplayer
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 653459690724636868, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-        type: 3}
-      propertyPath: bodyData.headAngleOffset
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 653459690724636868, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-        type: 3}
-      propertyPath: bodyData.headAngleMult
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 653459690724636868, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-        type: 3}
-      propertyPath: bodyData.headVerticalMult
+      propertyPath: bodyData.distanceMult
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 653459690724636868, guid: 593189f1e0425b042ae3d74d2b1abf0c,
         type: 3}
-      propertyPath: bodyData.offset.y
-      value: 0.8
+      propertyPath: bodyData.offset.z
+      value: -9
       objectReference: {fileID: 0}
     - target: {fileID: 653459690724636868, guid: 593189f1e0425b042ae3d74d2b1abf0c,
         type: 3}
-      propertyPath: bodyData.offset.z
-      value: -9.5
+      propertyPath: bodyData.distanceZMult
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 653459690724636869, guid: 593189f1e0425b042ae3d74d2b1abf0c,
         type: 3}
@@ -454,15 +378,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 653459690724636871, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 653459690724636871, guid: 593189f1e0425b042ae3d74d2b1abf0c,
-        type: 3}
-      propertyPath: faceHandler
-      value: 
-      objectReference: {fileID: 523476648}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 593189f1e0425b042ae3d74d2b1abf0c, type: 3}

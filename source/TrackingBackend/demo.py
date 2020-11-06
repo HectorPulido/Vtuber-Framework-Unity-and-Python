@@ -160,7 +160,7 @@ def run_demo(net, image_provider, height_size, cpu, track, smooth):
         for pose in current_poses:
             pose.draw(img)
         img = cv2.addWeighted(orig_img, 0.6, img, 0.4, 0)
-
+  
         cv2.imshow("Lightweight Human Pose Estimation Python Demo", img)
         key = cv2.waitKey(delay)
         if key == 27:  # esc

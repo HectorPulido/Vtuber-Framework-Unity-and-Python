@@ -6,7 +6,6 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
-
 class _BaseWrapper(object):
     """
     Please modify forward() and backward() according to your task.
@@ -150,3 +149,5 @@ class GradCAM(_BaseWrapper):
         gcam = gcam.view(B, C, H, W)
 
         return gcam
+
+
