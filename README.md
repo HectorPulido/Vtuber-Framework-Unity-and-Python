@@ -5,3 +5,5 @@ This is a WIP
 ![test](img/body_tracking.gif)
 
 ![test2](img/Ik.gif)
+
+![test3](img/expression.gif)
