@@ -23,7 +23,6 @@ This is a VTuber framework made with unity, it can track your movements and Expr
 3. Play the backend
 4. Open the project on unity 2017.3 or greater.
 5. Play the unity frontend
-6. 
 
 ## Licence
 This proyect uses Django, tweepy, dropbox libraries, also was made to work with heroku but everything else was totally handcrafted by me, so the licence is MIT, use it as you want.
